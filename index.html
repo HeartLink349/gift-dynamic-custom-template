@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title id="docTitle">My love ❤️</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <style>
+        :root {
+            --primary: #ff4d6d;
+            --secondary: #ff758f;
+            --gold: #d4af37;
+            --glass: rgba(255, 255, 255, 0.03);
+            --glass-border: rgba(255, 255, 255, 0.1);
+            --bg: #030303;
+            --glow-shadow: 0 0 20px rgba(255, 77, 109, 0.3);
+        }
+
+        * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+        body { margin: 0; background: var(--bg); color: #fff; font-family: 'Segoe UI', sans-serif; overflow: hidden; }
+
+        /* تأثير الخلفية الفخم */
+        .hearts-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; overflow: hidden; }
+        .heart-particle { position: absolute; color: var(--primary); opacity: 0.4; animation: fall linear infinite; filter: drop-shadow(0 0 5px var(--primary)); }
+        @keyframes fall { to { transform: translateY(110vh) rotate(360deg); } }
+
+        /* --- الصفحة 1: الدخول --- */
+        #page-1 {
+            height: 100vh; display: flex; align-items: center; justify-content: center;
+            background: radial-gradient(circle at center, #2b0b14 0%, #030303 100%);
+            position: fixed; width: 100%; z-index: 9999; transition: 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .login-card {
+            background: var(--glass); backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px); padding: 50px 30px;
+            border-radius: 40px; border: 1px solid var(--glass-border); text-align: center;
+            width: 90%; max-width: 400px; 
+            box-shadow: 0 0 40px rgba(255, 77, 109, 0.15); 
+            position: relative;
+        }
+        
+        .single-line-title {
+            white-space: nowrap; 
+            font-size: clamp(24px, 8vw, 35px); 
+            margin-bottom: 10px;
+            display: block;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        /* --- الصفحة 2: المحتوى الرئيسي --- */
+        #page-2 { display: none; opacity: 0; height: 100vh; overflow-y: auto; position: relative; z-index: 5; transition: 1s; }
+        .container { padding: 30px 20px; max-width: 500px; margin: 0 auto; }
+
+        .main-title { font-weight: 900; background: linear-gradient(45deg, #fff, var(--primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; margin: 0; }
+
+        /* إضاءة ونبض الصور */
+        .glass-card {
+            background: var(--glass); border: 1px solid var(--glass-border); border-radius: 35px; 
+            margin-bottom: 35px; overflow: hidden; opacity: 0; transform: translateY(40px); 
+            transition: 1s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 15px rgba(255, 77, 109, 0.1); 
+        }
+        .glass-card.show { 
+            opacity: 1; 
+            transform: translateY(0); 
+            animation: cardGlow 3s infinite alternate; 
+        }
+
+        @keyframes cardGlow {
+            from { box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 10px rgba(255, 77, 109, 0.1); }
+            to { box-shadow: 0 10px 30px rgba(0,0,0,0.3), 0 0 25px rgba(255, 77, 109, 0.3); }
+        }
+
+        .glass-card img { 
+            width: 100%; display: block; filter: brightness(0.92); transition: 0.5s; 
+            animation: imagePulse 5s infinite ease-in-out;
+        }
+        @keyframes imagePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.03); }
+        }
+
+        /* العداد */
+        .count-box { 
+            background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01)); 
+            border: 1px solid var(--glass-border); padding: 20px 5px; border-radius: 25px; 
+            text-align: center; backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px); transition: 0.3s;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .count-box:hover { border-color: var(--primary); transform: translateY(-5px); box-shadow: 0 0 20px rgba(255, 77, 109, 0.2); }
+        .count-num { font-size: 24px; font-weight: 800; display: block; color: var(--primary); text-shadow: 0 0 10px rgba(255,77,109,0.5); }
+        .counter-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin: 30px 0; }
+
+        .notes-container { display: flex; overflow-x: auto; gap: 15px; padding: 20px 5px; scrollbar-width: none; }
+        .note-card { min-width: 150px; height: 150px; position: relative; transition: 0.8s; transform-style: preserve-3d; cursor: pointer; }
+        .note-card.flipped { transform: rotateY(180deg); }
+        .note-front, .note-back { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; display: flex; align-items: center; justify-content: center; padding: 20px; border-radius: 30px; border: 1px solid var(--glass-border); }
+        .note-front { background: var(--glass); color: var(--gold); font-size: 30px; }
+        .note-back { background: var(--primary); transform: rotateY(180deg); font-size: 14px; font-weight: 600; text-align: center; color: white; }
+
+        .promises-section { margin: 40px 0; }
+        .promise-item { background: var(--glass); border: 1px solid var(--glass-border); padding: 15px 20px; border-radius: 20px; margin-bottom: 10px; display: flex; align-items: center; gap: 15px; transition: 0.3s; }
+        .promise-item:hover { background: rgba(255,77,109,0.1); border-color: var(--primary); transform: scale(1.02); }
+        .promise-item i { color: var(--gold); }
+
+        #page-3 { display: none; opacity: 0; position: fixed; inset: 0; z-index: 10000; background: #000; transition: 1.5s; overflow-y: auto; }
+        .secret-content { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 20px 80px; text-align: center; background: radial-gradient(circle at center, #3d0a18 0%, #000 100%); }
+        .floating-message { background: rgba(255,255,255,0.03); border: 1px solid var(--gold); padding: 45px 30px; border-radius: 50px; backdrop-filter: blur(40px); -webkit-backdrop-filter: blur(40px); box-shadow: 0 0 60px rgba(212, 175, 55, 0.15); max-width: 380px; animation: float 3s ease-in-out infinite; }
+        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-15px); } }
+
+        .btn-style { background: linear-gradient(45deg, var(--primary), var(--secondary)); color: white; border: none; padding: 18px 30px; border-radius: 20px; font-weight: 800; cursor: pointer; width: 100%; transition: 0.3s; box-shadow: 0 10px 20px rgba(255,77,109,0.3); }
+        .btn-style:hover { transform: scale(1.05); box-shadow: 0 15px 25px rgba(255,77,109,0.5); }
+        .btn-outline { background: none; border: 1px solid var(--gold); color: var(--gold); padding: 15px 35px; border-radius: 50px; cursor: pointer; margin-top: 30px; font-weight: 600; transition: 0.3s; }
+
+        .music-bar { background: var(--glass); padding: 18px; border-radius: 30px; border: 1px solid var(--glass-border); display: flex; align-items: center; gap: 15px; margin: 25px 0; backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px); }
+        .play-icon { width: 50px; height: 50px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px var(--primary); cursor: pointer; }
+
+        /* توافق أجهزة الآيفون iOS GPU Fix */
+        @supports (-webkit-touch-callout: none) {
+            .glass-card, .login-card, .count-box, .music-bar, .floating-message {
+                -webkit-backface-visibility: hidden;
+                backface-visibility: hidden;
+            }
+            .glass-card {
+                opacity: 1 !important;
+                transform: none !important;
+            }
+        }
+
+        /* العلامة المائية لمنصة HeartLink */
+        .heartlink-credit {
+            position: fixed;
+            left: 50%;
+            bottom: 12px;
+            transform: translateX(-50%);
+            z-index: 99999;
+            text-decoration: none;
+            color: rgba(255,255,255,0.78);
+            font-size: 11px;
+            font-weight: 700;
+            font-family: inherit;
+            padding: 7px 12px;
+            border-radius: 999px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.12);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.25);
+            transition: 0.25s ease;
+            white-space: nowrap;
+        }
+        .heartlink-credit:hover {
+            color: #fff;
+            background: rgba(255,255,255,0.09);
+            transform: translateX(-50%) translateY(-2px);
+        }
+        @media (max-width: 480px) {
+            .heartlink-credit {
+                font-size: 10px;
+                bottom: 9px;
+                padding: 6px 10px;
+            }
+        }
+
+        /* ================= نافذة ولوحة تحكم الأدمن (Admin Panel) ================= */
+        .hl-admin-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.88);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            z-index: 100005;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 14px;
+        }
+        .hl-admin-overlay.active { display: flex; }
+
+        .hl-admin-auth-box {
+            background: #14060a;
+            border: 1px solid rgba(255, 77, 109, 0.35);
+            border-radius: 28px;
+            padding: 28px 22px;
+            width: 100%;
+            max-width: 360px;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.7);
+        }
+
+        .hl-admin-panel-box {
+            background: #12060a;
+            border: 1px solid rgba(255, 77, 109, 0.35);
+            border-radius: 28px;
+            width: 100%;
+            max-width: 540px;
+            max-height: 92vh;
+            display: none;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(0,0,0,0.85);
+        }
+
+        .hl-admin-header {
+            padding: 16px 20px;
+            background: rgba(255, 77, 109, 0.12);
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .hl-admin-header h3 { margin: 0; font-size: 17px; color: var(--primary); }
+        .hl-close-btn {
+            background: rgba(255,255,255,0.08);
+            border: 0;
+            color: #fff;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .hl-admin-body {
+            padding: 18px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .hl-admin-section {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 15px;
+        }
+        .hl-admin-section h4 {
+            margin: 0 0 12px;
+            color: var(--gold);
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .hl-field { margin-bottom: 12px; }
+        .hl-field:last-child { margin-bottom: 0; }
+        .hl-field label {
+            display: block;
+            font-size: 12px;
+            color: rgba(255,255,255,0.78);
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+        .hl-input, .hl-textarea {
+            width: 100%;
+            background: rgba(0,0,0,0.45);
+            border: 1px solid rgba(255,255,255,0.16);
+            border-radius: 12px;
+            padding: 11px 13px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 13px;
+            outline: none;
+        }
+        .hl-input:focus, .hl-textarea:focus {
+            border-color: var(--primary);
+        }
+        .hl-textarea { min-height: 95px; resize: vertical; line-height: 1.6; }
+
+        /* أزرار رفع الملفات من الجهاز */
+        .hl-upload-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            padding: 11px 14px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(255, 77, 109, 0.22), rgba(212, 175, 55, 0.16));
+            border: 1px dashed rgba(255, 77, 109, 0.65);
+            color: #fff;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.25s;
+            text-align: center;
+        }
+        .hl-upload-btn:hover {
+            background: rgba(255, 77, 109, 0.32);
+            border-color: var(--gold);
+        }
+
+        .hl-upload-status {
+            font-size: 11px;
+            color: #6ee7b7;
+            margin-top: 6px;
+            display: block;
+        }
+
+        .hl-photo-item {
+            background: rgba(0,0,0,0.38);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 12px;
+            margin-bottom: 12px;
+            position: relative;
+        }
+        .hl-photo-preview {
+            width: 100%;
+            max-height: 160px;
+            object-fit: contain;
+            border-radius: 10px;
+            background: #080808;
+            margin-bottom: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            display: block;
+        }
+        .hl-remove-photo {
+            background: rgba(255, 50, 50, 0.2);
+            border: 1px solid rgba(255, 50, 50, 0.4);
+            color: #ff8080;
+            padding: 7px 12px;
+            border-radius: 9px;
+            font-size: 12px;
+            cursor: pointer;
+            margin-top: 8px;
+            width: 100%;
+            font-weight: 700;
+        }
+        .hl-add-btn {
+            background: rgba(212, 175, 55, 0.15);
+            border: 1px dashed var(--gold);
+            color: var(--gold);
+            padding: 12px;
+            border-radius: 12px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: 800;
+            font-size: 13px;
+        }
+
+        .hl-admin-footer {
+            padding: 14px 18px;
+            background: rgba(0,0,0,0.7);
+            border-top: 1px solid rgba(255,255,255,0.08);
+            display: flex;
+            gap: 10px;
+        }
+        .hl-save-btn {
+            flex: 1;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            border: 0;
+            color: #fff;
+            padding: 13px;
+            border-radius: 14px;
+            font-weight: 800;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .hl-save-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="hearts-bg" id="hearts-container"></div>
+
+    <!-- الصفحة 1: الواجهة (اضغط 5 مرات على الأسماء لفتح لوحة التحكم) -->
+    <section id="page-1">
+        <div class="login-card animate__animated animate__zoomIn">
+            <h1 id="ui-coupleNames" class="main-title single-line-title" style="-webkit-text-fill-color: initial; color: #fff;" onclick="handleSecretTap()">مصطفى &amp; حبيبه</h1>
+            <p id="ui-loginSubtitle" style="opacity:0.6; font-size:12px; margin-bottom:35px; letter-spacing: 2px;">OUR ETERNAL LOVE STORY ✨</p>
+            
+            <input type="password" id="passInput" placeholder="انتي لسه هتفكري انجزي" style="width:100%; background:rgba(255,255,255,0.07); border:1px solid var(--glass-border); padding:18px; border-radius:20px; color:#fff; text-align:center; margin-bottom:25px; outline:none; font-size: 16px;">
+            
+            <button id="ui-loginBtn" class="btn-style" onclick="goToPage2()">دوسي هنا😂</button>
+        </div>
+    </section>
+
+    <!-- الصفحة 2: المحتوى الرئيسي -->
+    <section id="page-2">
+        <div class="container">
+            <header style="text-align:center; padding:50px 0;">
+                <h2 id="ui-page2Title" class="main-title">حكايتنا ❤️</h2>
+                <p id="ui-page2Subtitle" style="opacity:0.8; margin-top:10px;">كل لحظة معاكي هي عمر جديد</p>
+            </header>
+
+            <div id="ui-counterLabel" style="text-align:center; color:var(--gold); font-size:13px; letter-spacing:4px; font-weight: 700;">منذ أن بدأت القصة</div>
+            <div class="counter-grid">
+                <div class="count-box"><span id="years" class="count-num">0</span><span style="font-size:11px; opacity:0.6;">سنة</span></div>
+                <div class="count-box"><span id="months" class="count-num">0</span><span style="font-size:11px; opacity:0.6;">شهر</span></div>
+                <div class="count-box"><span id="days" class="count-num">0</span><span style="font-size:11px; opacity:0.6;">يوم</span></div>
+                <div class="count-box"><span id="hours" class="count-num">0</span><span style="font-size:11px; opacity:0.6;">ساعة</span></div>
+                <div class="count-box"><span id="mins" class="count-num">0</span><span style="font-size:11px; opacity:0.6;">دقيقة</span></div>
+                <div class="count-box"><span id="secs" class="count-num">0</span><span style="font-size:11px; opacity:0.6;">ثانية</span></div>
+            </div>
+
+            <div class="music-bar">
+                <div class="play-icon" onclick="toggleMusic()"><i id="pIcon" class="fa-solid fa-play"></i></div>
+                <div style="flex:1">
+                    <div id="ui-songTitle" style="font-size:15px; font-weight:700;">نور عيني</div>
+                    <div id="ui-songSubtitle" style="font-size:11px; opacity:0.5;">الأغنية اللي بتوصفنا 🎵</div>
+                </div>
+                <audio id="loveSong" loop src="https://files.catbox.moe/ll4n4b.mp3"></audio>
+            </div>
+
+            <div class="promises-section">
+                <div class="promise-item"><i class="fa-solid fa-hand-holding-heart"></i> <span id="ui-promise1">هفضل سندك في كل وقت</span></div>
+                <div class="promise-item"><i class="fa-solid fa-shield-halved"></i> <span id="ui-promise2">هكون دايماً أمانك وضحكتك</span></div>
+                <div class="promise-item"><i class="fa-solid fa-infinity"></i> <span id="ui-promise3">حبنا ملوش نهاية.. وعد</span></div>
+            </div>
+
+            <div class="notes-container">
+                <div class="note-card" onclick="this.classList.toggle('flipped')">
+                    <div class="note-front"><i class="fa-solid fa-envelope"></i></div>
+                    <div id="ui-note1" class="note-back">إنتي أجمل نعمة في حياتي ❤️</div>
+                </div>
+                <div class="note-card" onclick="this.classList.toggle('flipped')">
+                    <div class="note-front"><i class="fa-solid fa-star"></i></div>
+                    <div id="ui-note2" class="note-back">وجودك بيخلي الدنيا منورة ✨</div>
+                </div>
+                <div class="note-card" onclick="this.classList.toggle('flipped')">
+                    <div class="note-front"><i class="fa-solid fa-crown"></i></div>
+                    <div id="ui-note3" class="note-back">ملكة قلبي للأبد 💍</div>
+                </div>
+            </div>
+
+            <div class="gallery" id="ui-gallery"></div>
+
+            <div style="text-align:center; padding-bottom:100px;">
+                <button id="ui-page3Btn" class="btn-outline" onclick="goToPage3()">في حاجة أخيرة ليكي.. 🎁</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- الصفحة 3: الرسالة النهائية -->
+    <section id="page-3">
+        <div class="secret-content">
+            <div class="floating-message animate__animated animate__fadeInUp">
+                <i class="fa-solid fa-heart" style="color:var(--primary); font-size:45px; margin-bottom:25px; filter: drop-shadow(0 0 10px var(--primary));"></i>
+                <h2 id="ui-finalTitle" style="color:#fff; margin-bottom:20px; font-size: 28px;">ملكة قلبي.. ❤️</h2>
+                <p id="ui-finalMessage" style="font-size:16px; line-height:1.8; color:#eee; font-style:italic; white-space: pre-line;">حبيبتي "حبيبة".. عايز أقولك إن كل كلمة كتبتها هنا وكل صورة حطيتها هي جزء صغير من اللي حاسه بيكي. إنتي مش بس حبيبتي، إنتي بنتي وصحبتي وأماني. هفضل دايماً جنبك، وهيفضل حبنا بيكبر كل يوم عن اللي قبله. ربنا يخليكي ليا يا أغلى من عمري.</p>
+                <div id="ui-finalSignature" style="margin-top:25px; font-weight:900; color:var(--gold); font-size: 20px;">بحبك يا حبيبة.. للأبد ❤️</div>
+                <button onclick="location.reload()" style="background:none; border:none; color:var(--primary); margin-top:35px; font-size:13px; text-decoration:underline; cursor:pointer; font-weight: 600;">العودة للبداية</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ================= نافذة الأدمن (كلمة المرور + لوحة التحكم) ================= -->
+    <div id="hlAdminOverlay" class="hl-admin-overlay">
+        <!-- صندوق إدخال باسورد الأدمن (admin) -->
+        <div id="hlAdminAuthBox" class="hl-admin-auth-box">
+            <i class="fa-solid fa-user-shield" style="font-size: 38px; color: var(--primary); margin-bottom: 12px;"></i>
+            <h3 style="margin: 0 0 8px;">لوحة تحكم الهدية ⚙️</h3>
+            <p style="font-size: 12px; color: rgba(255,255,255,0.6); margin-bottom: 18px;">أدخل كلمة مرور الأدمن للمتابعة</p>
+            <input type="password" id="adminPassInput" class="hl-input" placeholder="كلمة المرور (admin)" style="text-align:center; margin-bottom: 14px;" onkeydown="if(event.key==='Enter') verifyAdminPass()">
+            <div id="adminAuthError" style="color:#ff6b6b; font-size:12px; margin-bottom:10px; display:none;">كلمة المرور غير صحيحة!</div>
+            <div style="display:flex; gap:10px;">
+                <button type="button" class="hl-save-btn" onclick="verifyAdminPass()">دخول</button>
+                <button type="button" class="hl-close-btn" style="width:auto; padding:0 16px; border-radius:14px;" onclick="closeAdminModal()">إلغاء</button>
+            </div>
+        </div>
+
+        <!-- لوحة التعديل الكاملة -->
+        <div id="hlAdminPanelBox" class="hl-admin-panel-box">
+            <div class="hl-admin-header">
+                <h3><i class="fa-solid fa-sliders"></i> التحكم الكامل في الهدية</h3>
+                <button type="button" class="hl-close-btn" onclick="closeAdminModal()"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <div class="hl-admin-body">
+                <!-- 1. إعدادات الواجهة والدخول -->
+                <div class="hl-admin-section">
+                    <h4><i class="fa-solid fa-door-open"></i> الصفحة الأولى (الدخول والأسماء)</h4>
+                    <div class="hl-field">
+                        <label>الأسماء في الواجهة:</label>
+                        <input type="text" id="adm-coupleNames" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>النص الفرعي تحت الأسماء:</label>
+                        <input type="text" id="adm-loginSubtitle" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>باسورد فتح الهدية:</label>
+                        <input type="text" id="adm-giftPassword" class="hl-input" dir="ltr">
+                    </div>
+                    <div class="hl-field">
+                        <label>النص داخل خانة الباسورد (Placeholder):</label>
+                        <input type="text" id="adm-passPlaceholder" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>نص زر الدخول:</label>
+                        <input type="text" id="adm-loginBtnText" class="hl-input">
+                    </div>
+                </div>
+
+                <!-- 2. إعدادات العداد والعناوين -->
+                <div class="hl-admin-section">
+                    <h4><i class="fa-solid fa-clock"></i> العداد وعناوين الصفحة الثانية</h4>
+                    <div class="hl-field">
+                        <label>العنوان الرئيسي (حكايتنا):</label>
+                        <input type="text" id="adm-page2Title" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>النص تحت العنوان:</label>
+                        <input type="text" id="adm-page2Subtitle" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>عنوان العداد:</label>
+                        <input type="text" id="adm-counterLabel" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>تاريخ ووقت بداية العداد:</label>
+                        <input type="datetime-local" id="adm-startDate" class="hl-input" dir="ltr">
+                    </div>
+                </div>
+
+                <!-- 3. إعدادات الموسيقى (رفع من الجهاز مباشر) -->
+                <div class="hl-admin-section">
+                    <h4><i class="fa-solid fa-music"></i> الأغنية والموسيقى</h4>
+                    <div class="hl-field">
+                        <label>اسم الأغنية:</label>
+                        <input type="text" id="adm-songTitle" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>وصف الأغنية:</label>
+                        <input type="text" id="adm-songSubtitle" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>اختر أغنية أو فيديو من جهازك:</label>
+                        <label class="hl-upload-btn">
+                            <i class="fa-solid fa-cloud-arrow-up"></i> رفع ملف صوتي / فيديو من الجهاز
+                            <input type="file" id="adm-songFile" accept="audio/*,video/*" style="display:none;" onchange="handleAudioFileUpload(this)">
+                        </label>
+                        <span id="adm-songStatus" class="hl-upload-status"></span>
+                        <audio id="adm-songPreview" controls style="width:100%; height:36px; margin-top:8px;"></audio>
+                    </div>
+                </div>
+
+                <!-- 4. الوعود والكروت -->
+                <div class="hl-admin-section">
+                    <h4><i class="fa-solid fa-hand-holding-heart"></i> الوعود والرسائل القصيرة</h4>
+                    <div class="hl-field">
+                        <label>الوعد الأول:</label>
+                        <input type="text" id="adm-promise1" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>الوعد الثاني:</label>
+                        <input type="text" id="adm-promise2" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>الوعد الثالث:</label>
+                        <input type="text" id="adm-promise3" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>الكارت القابل للقلب 1:</label>
+                        <input type="text" id="adm-note1" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>الكارت القابل للقلب 2:</label>
+                        <input type="text" id="adm-note2" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>الكارت القابل للقلب 3:</label>
+                        <input type="text" id="adm-note3" class="hl-input">
+                    </div>
+                </div>
+
+                <!-- 5. الصور (رفع من الجهاز + إضافة / تعديل / حذف) -->
+                <div class="hl-admin-section">
+                    <h4><i class="fa-solid fa-images"></i> معرض الصور (من الجهاز)</h4>
+                    <div id="adm-photosList"></div>
+                    <button type="button" class="hl-add-btn" onclick="addAdminPhotoRow()">
+                        <i class="fa-solid fa-plus"></i> إضافة صورة جديدة من الجهاز
+                    </button>
+                </div>
+
+                <!-- 6. الرسالة النهائية -->
+                <div class="hl-admin-section">
+                    <h4><i class="fa-solid fa-envelope-open-text"></i> الصفحة الأخيرة (الرسالة السرية)</h4>
+                    <div class="hl-field">
+                        <label>نص زر فتح الرسالة الأخيرة:</label>
+                        <input type="text" id="adm-page3Btn" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>عنوان الرسالة الأخيرة:</label>
+                        <input type="text" id="adm-finalTitle" class="hl-input">
+                    </div>
+                    <div class="hl-field">
+                        <label>نص الرسالة الأخيرة:</label>
+                        <textarea id="adm-finalMessage" class="hl-textarea"></textarea>
+                    </div>
+                    <div class="hl-field">
+                        <label>التوقيع في نهاية الرسالة:</label>
+                        <input type="text" id="adm-finalSignature" class="hl-input">
+                    </div>
+                </div>
+            </div>
+
+            <div class="hl-admin-footer">
+                <button type="button" class="hl-save-btn" id="hlSaveBtn" onclick="saveAdminChanges()">
+                    <i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات على السحابة وتحديث الهدية
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- العلامة المائية لمنصة HeartLink -->
+    <a href="https://wa.me/201125674359" target="_blank" class="heartlink-credit">
+        Made with ❤️ by HeartLink
+    </a>
+
+    <!-- مكتبات Firebase الرسمية -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-storage-compat.js"></script>
+
+    <script>
+        /* =====================================================================
+           1. إعدادات Firebase الخاصة بك (kkllllll-f93d1)
+           ===================================================================== */
+        const firebaseConfig = {
+            apiKey: "AIzaSyDmhIYlBK2b0zlhnahBLwLaWvF1zhUAw6I",
+            authDomain: "kkllllll-f93d1.firebaseapp.com",
+            databaseURL: "https://kkllllll-f93d1-default-rtdb.firebaseio.com",
+            projectId: "kkllllll-f93d1",
+            storageBucket: "kkllllll-f93d1.firebasestorage.app",
+            messagingSenderId: "969363549519",
+            appId: "1:969363549519:web:f97aff015cda24bcb9e93a",
+            measurementId: "G-JGZDS6SLTQ"
+        };
+
+        const GIFT_DOC_ID = "gift-dynamic-custom-template";
+        const STORAGE_KEY = "heartlink_gift_data_" + GIFT_DOC_ID;
+
+        let firestoreDocRef = null;
+        let rtdbRef = null;
+        let storageBucketRef = null;
+
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            try {
+                firestoreDocRef = firebase.firestore().collection("heartlink_gifts").doc(GIFT_DOC_ID);
+            } catch (e) {}
+            try {
+                rtdbRef = firebase.database().ref("heartlink_gifts/" + GIFT_DOC_ID);
+            } catch (e) {}
+            try {
+                storageBucketRef = firebase.storage().ref("heartlink_gifts/" + GIFT_DOC_ID);
+            } catch (e) {}
+        } catch (err) {
+            console.warn("Firebase init warning:", err);
+        }
+
+        /* =====================================================================
+           2. البيانات الافتراضية للهدية
+           ===================================================================== */
+        const defaultGiftData = {
+            coupleNames: "مصطفى & حبيبه",
+            loginSubtitle: "OUR ETERNAL LOVE STORY ✨",
+            giftPassword: "1",
+            passPlaceholder: "انتي لسه هتفكري انجزي",
+            loginBtnText: "دوسي هنا😂",
+            page2Title: "حكايتنا ❤️",
+            page2Subtitle: "كل لحظة معاكي هي عمر جديد",
+            counterLabel: "منذ أن بدأت القصة",
+            startDate: "2023-01-20T00:00",
+            songTitle: "نور عيني",
+            songSubtitle: "الأغنية اللي بتوصفنا 🎵",
+            songUrl: "https://files.catbox.moe/ll4n4b.mp3",
+            promises: [
+                "هفضل سندك في كل وقت",
+                "هكون دايماً أمانك وضحكتك",
+                "حبنا ملوش نهاية.. وعد"
+            ],
+            notes: [
+                "إنتي أجمل نعمة في حياتي ❤️",
+                "وجودك بيخلي الدنيا منورة ✨",
+                "ملكة قلبي للأبد 💍"
+            ],
+            photos: [
+                { url: "https://files.catbox.moe/a9rnlc.jpg", caption: "أحلى صدفة في عمري ❤️" },
+                { url: "https://files.catbox.moe/xqbj7c.jpg", caption: "ضحكتك هي حياتي ✨" },
+                { url: "https://files.catbox.moe/wf2909.jpg", caption: "عالمي الخاص بيكي" },
+                { url: "https://files.catbox.moe/1prbre.jpg", caption: "بموت فيكي يا حبيبة 💍" }
+            ],
+            page3Btn: "في حاجة أخيرة ليكي.. 🎁",
+            finalTitle: "ملكة قلبي.. ❤️",
+            finalMessage: "حبيبتي \"حبيبة\".. عايز أقولك إن كل كلمة كتبتها هنا وكل صورة حطيتها هي جزء صغير من اللي حاسه بيكي. إنتي مش بس حبيبتي، إنتي بنتي وصحبتي وأماني. هفضل دايماً جنبك، وهيفضل حبنا بيكبر كل يوم عن اللي قبله. ربنا يخليكي ليا يا أغلى من عمري.",
+            finalSignature: "بحبك يا حبيبة.. للأبد ❤️"
+        };
+
+        let giftData = JSON.parse(JSON.stringify(defaultGiftData));
+        let currentSongData = defaultGiftData.songUrl;
+
+        /* تحميل البيانات من السحابة (Firestore / RTDB) + LocalStorage */
+        function loadSavedGiftData() {
+            try {
+                const local = localStorage.getItem(STORAGE_KEY);
+                if (local) {
+                    giftData = Object.assign({}, defaultGiftData, JSON.parse(local));
+                    currentSongData = giftData.songUrl;
+                }
+            } catch (e) {}
+
+            renderGiftUI();
+
+            // الاستماع اللحظي من Firestore
+            if (firestoreDocRef) {
+                firestoreDocRef.onSnapshot((doc) => {
+                    if (doc && doc.exists) {
+                        const remote = doc.data();
+                        giftData = Object.assign({}, defaultGiftData, remote);
+                        currentSongData = giftData.songUrl;
+                        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(giftData)); } catch (e) {}
+                        renderGiftUI();
+                    }
+                }, () => {});
+            }
+
+            // الاستماع اللحظي الاحتياطي من Realtime Database
+            if (rtdbRef) {
+                rtdbRef.on("value", (snap) => {
+                    const remote = snap.val();
+                    if (remote) {
+                        giftData = Object.assign({}, defaultGiftData, remote);
+                        currentSongData = giftData.songUrl;
+                        try { localStorage.setItem(STORAGE_KEY, JSON.stringify(giftData)); } catch (e) {}
+                        renderGiftUI();
+                    }
+                });
+            }
+        }
+
+        /* =====================================================================
+           3. أدوات رفع وضغط الصور والملفات الصوتية من الجهاز مباشر
+           ===================================================================== */
+        function compressImageFile(file, maxWidth = 900, quality = 0.78) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.onload = () => {
+                        let w = img.width;
+                        let h = img.height;
+                        if (w > maxWidth) {
+                            h = Math.round((h * maxWidth) / w);
+                            w = maxWidth;
+                        }
+                        const canvas = document.createElement('canvas');
+                        canvas.width = w;
+                        canvas.height = h;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, w, h);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                    img.onerror = reject;
+                    img.src = e.target.result;
+                };
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function uploadMediaFile(file, type = 'image') {
+            // محاولة الرفع على Firebase Storage أولاً إن كان مفعلاً
+            if (storageBucketRef) {
+                try {
+                    const ext = (file.name.split('.').pop() || 'dat').toLowerCase();
+                    const fileRef = storageBucketRef.child(type + '_' + Date.now() + '_' + Math.random().toString(36).slice(2, 7) + '.' + ext);
+                    const uploadTask = await Promise.race([
+                        fileRef.put(file),
+                        new Promise((_, rej) => setTimeout(() => rej(new Error('timeout')), 9000))
+                    ]);
+                    const downloadUrl = await uploadTask.ref.getDownloadURL();
+                    if (downloadUrl) return downloadUrl;
+                } catch (e) {
+                    // في حال عدم تفعيل قواعد Storage يتم التحويل التلقائي للبيانات المدمجة
+                }
+            }
+
+            if (type === 'image') {
+                return await compressImageFile(file, 900, 0.78);
+            } else {
+                return await new Promise((resolve, reject) => {
+                    const reader = new FileReader();
+                    reader.onload = (ev) => resolve(ev.target.result);
+                    reader.onerror = reject;
+                    reader.readAsDataURL(file);
+                });
+            }
+        }
+
+        async function handleAudioFileUpload(input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            const statusEl = document.getElementById('adm-songStatus');
+            const previewEl = document.getElementById('adm-songPreview');
+            statusEl.style.color = '#ffd166';
+            statusEl.innerText = 'جاري تجهيز ورفع الملف الصوتي من جهازك... ⏳';
+
+            try {
+                const resultUrl = await uploadMediaFile(file, 'audio');
+                currentSongData = resultUrl;
+                previewEl.src = resultUrl;
+                statusEl.style.color = '#6ee7b7';
+                statusEl.innerText = 'تم اختيار الأغنية من جهازك بنجاح ✅ (' + file.name + ')';
+            } catch (err) {
+                statusEl.style.color = '#ff6b6b';
+                statusEl.innerText = 'حدث خطأ أثناء قراءة الملف!';
+            }
+        }
+
+        async function handlePhotoFileUpload(input) {
+            const file = input.files && input.files[0];
+            if (!file) return;
+            const row = input.closest('.hl-photo-item');
+            const previewImg = row.querySelector('.hl-photo-preview');
+            const statusEl = row.querySelector('.hl-upload-status');
+            const hiddenInput = row.querySelector('.adm-photo-data');
+
+            statusEl.style.color = '#ffd166';
+            statusEl.innerText = 'جاري ضغط ورفع الصورة من جهازك... ⏳';
+
+            try {
+                const dataUrl = await uploadMediaFile(file, 'image');
+                hiddenInput.value = dataUrl;
+                previewImg.src = dataUrl;
+                previewImg.style.display = 'block';
+                statusEl.style.color = '#6ee7b7';
+                statusEl.innerText = 'تم تجهيز الصورة بنجاح ✅';
+            } catch (err) {
+                statusEl.style.color = '#ff6b6b';
+                statusEl.innerText = 'تعذر قراءة الصورة!';
+            }
+        }
+
+        /* =====================================================================
+           4. عرض البيانات على واجهة الهدية + حماية الصور
+           ===================================================================== */
+        function setupImageFallback(img) {
+            if (!img) return;
+            img.removeAttribute('loading');
+            img.removeAttribute('referrerpolicy');
+
+            const orig = img.getAttribute('data-original') || img.getAttribute('src') || '';
+            if (!orig || orig.startsWith('data:') || orig.startsWith('blob:')) return;
+
+            img.onerror = function() {
+                const cleanPath = orig.replace(/^https?:\/\//i, '');
+                const step = parseInt(this.getAttribute('data-fallback-step') || '0', 10);
+
+                if (step === 0) {
+                    this.setAttribute('data-fallback-step', '1');
+                    this.src = 'https://wsrv.nl/?url=' + encodeURIComponent('http://' + cleanPath);
+                } else if (step === 1) {
+                    this.setAttribute('data-fallback-step', '2');
+                    this.src = 'https://i0.wp.com/' + cleanPath;
+                } else if (step === 2) {
+                    this.setAttribute('data-fallback-step', '3');
+                    this.src = 'http://' + cleanPath;
+                }
+            };
+        }
+
+        function renderGiftUI() {
+            document.title = "عالم " + giftData.coupleNames + " الخاص ❤️";
+            document.getElementById('ui-coupleNames').innerText = giftData.coupleNames;
+            document.getElementById('ui-loginSubtitle').innerText = giftData.loginSubtitle;
+            document.getElementById('passInput').placeholder = giftData.passPlaceholder;
+            document.getElementById('ui-loginBtn').innerText = giftData.loginBtnText;
+
+            document.getElementById('ui-page2Title').innerText = giftData.page2Title;
+            document.getElementById('ui-page2Subtitle').innerText = giftData.page2Subtitle;
+            document.getElementById('ui-counterLabel').innerText = giftData.counterLabel;
+
+            document.getElementById('ui-songTitle').innerText = giftData.songTitle;
+            document.getElementById('ui-songSubtitle').innerText = giftData.songSubtitle;
+            const songEl = document.getElementById('loveSong');
+            if (giftData.songUrl && songEl.getAttribute('src') !== giftData.songUrl) {
+                songEl.src = giftData.songUrl;
+            }
+
+            document.getElementById('ui-promise1').innerText = (giftData.promises && giftData.promises[0]) || "";
+            document.getElementById('ui-promise2').innerText = (giftData.promises && giftData.promises[1]) || "";
+            document.getElementById('ui-promise3').innerText = (giftData.promises && giftData.promises[2]) || "";
+
+            document.getElementById('ui-note1').innerText = (giftData.notes && giftData.notes[0]) || "";
+            document.getElementById('ui-note2').innerText = (giftData.notes && giftData.notes[1]) || "";
+            document.getElementById('ui-note3').innerText = (giftData.notes && giftData.notes[2]) || "";
+
+            const galleryEl = document.getElementById('ui-gallery');
+            galleryEl.innerHTML = '';
+            (giftData.photos || []).forEach((item) => {
+                if (!item || !item.url) return;
+                const card = document.createElement('div');
+                card.className = 'glass-card show';
+                const img = document.createElement('img');
+                img.src = item.url;
+                img.setAttribute('data-original', item.url);
+                setupImageFallback(img);
+
+                const cap = document.createElement('div');
+                cap.style.cssText = 'padding:20px; text-align:center; font-weight: 600;';
+                cap.innerText = item.caption || '';
+
+                card.appendChild(img);
+                card.appendChild(cap);
+                galleryEl.appendChild(card);
+            });
+
+            document.getElementById('ui-page3Btn').innerText = giftData.page3Btn;
+            document.getElementById('ui-finalTitle').innerText = giftData.finalTitle;
+            document.getElementById('ui-finalMessage').innerText = giftData.finalMessage;
+            document.getElementById('ui-finalSignature').innerText = giftData.finalSignature;
+
+            updateRealTimeCounter();
+        }
+
+        /* =====================================================================
+           5. الضغط 5 مرات على الأسماء لفتح لوحة التحكم بكلمة مرور admin
+           ===================================================================== */
+        let secretTapCount = 0;
+        let secretTapTimer = null;
+
+        function handleSecretTap() {
+            secretTapCount++;
+            clearTimeout(secretTapTimer);
+            if (secretTapCount >= 5) {
+                secretTapCount = 0;
+                openAdminModal();
+            } else {
+                secretTapTimer = setTimeout(() => {
+                    secretTapCount = 0;
+                }, 1800);
+            }
+        }
+
+        function openAdminModal() {
+            document.getElementById('hlAdminOverlay').classList.add('active');
+            document.getElementById('hlAdminAuthBox').style.display = 'block';
+            document.getElementById('hlAdminPanelBox').style.display = 'none';
+            document.getElementById('adminPassInput').value = '';
+            document.getElementById('adminAuthError').style.display = 'none';
+            setTimeout(() => document.getElementById('adminPassInput').focus(), 100);
+        }
+
+        function closeAdminModal() {
+            document.getElementById('hlAdminOverlay').classList.remove('active');
+        }
+
+        function verifyAdminPass() {
+            const val = document.getElementById('adminPassInput').value.trim();
+            if (val === 'admin') {
+                document.getElementById('hlAdminAuthBox').style.display = 'none';
+                document.getElementById('hlAdminPanelBox').style.display = 'flex';
+                populateAdminForm();
+            } else {
+                document.getElementById('adminAuthError').style.display = 'block';
+            }
+        }
+
+        function populateAdminForm() {
+            document.getElementById('adm-coupleNames').value = giftData.coupleNames || '';
+            document.getElementById('adm-loginSubtitle').value = giftData.loginSubtitle || '';
+            document.getElementById('adm-giftPassword').value = giftData.giftPassword || '';
+            document.getElementById('adm-passPlaceholder').value = giftData.passPlaceholder || '';
+            document.getElementById('adm-loginBtnText').value = giftData.loginBtnText || '';
+
+            document.getElementById('adm-page2Title').value = giftData.page2Title || '';
+            document.getElementById('adm-page2Subtitle').value = giftData.page2Subtitle || '';
+            document.getElementById('adm-counterLabel').value = giftData.counterLabel || '';
+            document.getElementById('adm-startDate').value = (giftData.startDate || '2023-01-20T00:00').slice(0, 16);
+
+            document.getElementById('adm-songTitle').value = giftData.songTitle || '';
+            document.getElementById('adm-songSubtitle').value = giftData.songSubtitle || '';
+            currentSongData = giftData.songUrl || '';
+            document.getElementById('adm-songPreview').src = currentSongData;
+            document.getElementById('adm-songStatus').innerText = '';
+
+            document.getElementById('adm-promise1').value = (giftData.promises && giftData.promises[0]) || '';
+            document.getElementById('adm-promise2').value = (giftData.promises && giftData.promises[1]) || '';
+            document.getElementById('adm-promise3').value = (giftData.promises && giftData.promises[2]) || '';
+
+            document.getElementById('adm-note1').value = (giftData.notes && giftData.notes[0]) || '';
+            document.getElementById('adm-note2').value = (giftData.notes && giftData.notes[1]) || '';
+            document.getElementById('adm-note3').value = (giftData.notes && giftData.notes[2]) || '';
+
+            const photosContainer = document.getElementById('adm-photosList');
+            photosContainer.innerHTML = '';
+            (giftData.photos || []).forEach((p) => addAdminPhotoRow(p.url, p.caption));
+
+            document.getElementById('adm-page3Btn').value = giftData.page3Btn || '';
+            document.getElementById('adm-finalTitle').value = giftData.finalTitle || '';
+            document.getElementById('adm-finalMessage').value = giftData.finalMessage || '';
+            document.getElementById('adm-finalSignature').value = giftData.finalSignature || '';
+        }
+
+        function addAdminPhotoRow(url = '', caption = '') {
+            const container = document.getElementById('adm-photosList');
+            const item = document.createElement('div');
+            item.className = 'hl-photo-item';
+            const hasPreview = Boolean(url);
+            item.innerHTML = `
+                <img class="hl-photo-preview" src="${hasPreview ? url.replace(/"/g, '&quot;') : ''}" style="${hasPreview ? 'display:block;' : 'display:none;'}" alt="معاينة">
+                <input type="hidden" class="adm-photo-data" value="${url.replace(/"/g, '&quot;')}">
+                <div class="hl-field">
+                    <label class="hl-upload-btn">
+                        <i class="fa-solid fa-image"></i> اختر صورة من جهازك
+                        <input type="file" accept="image/*" style="display:none;" onchange="handlePhotoFileUpload(this)">
+                    </label>
+                    <span class="hl-upload-status">${hasPreview ? 'الصورة جاهزة ✅' : ''}</span>
+                </div>
+                <div class="hl-field">
+                    <label>النص تحت الصورة:</label>
+                    <input type="text" class="hl-input adm-photo-caption" placeholder="اكتب جملة حلوة تحت الصورة..." value="${caption.replace(/"/g, '&quot;')}">
+                </div>
+                <button type="button" class="hl-remove-photo" onclick="this.parentElement.remove()">
+                    <i class="fa-solid fa-trash"></i> حذف هذه الصورة
+                </button>
+            `;
+            container.appendChild(item);
+        }
+
+        async function saveAdminChanges() {
+            const photos = [];
+            document.querySelectorAll('#adm-photosList .hl-photo-item').forEach((row) => {
+                const u = row.querySelector('.adm-photo-data').value.trim();
+                const c = row.querySelector('.adm-photo-caption').value.trim();
+                if (u) photos.push({ url: u, caption: c });
+            });
+
+            giftData = {
+                coupleNames: document.getElementById('adm-coupleNames').value.trim(),
+                loginSubtitle: document.getElementById('adm-loginSubtitle').value.trim(),
+                giftPassword: document.getElementById('adm-giftPassword').value.trim(),
+                passPlaceholder: document.getElementById('adm-passPlaceholder').value.trim(),
+                loginBtnText: document.getElementById('adm-loginBtnText').value.trim(),
+                page2Title: document.getElementById('adm-page2Title').value.trim(),
+                page2Subtitle: document.getElementById('adm-page2Subtitle').value.trim(),
+                counterLabel: document.getElementById('adm-counterLabel').value.trim(),
+                startDate: document.getElementById('adm-startDate').value || "2023-01-20T00:00",
+                songTitle: document.getElementById('adm-songTitle').value.trim(),
+                songSubtitle: document.getElementById('adm-songSubtitle').value.trim(),
+                songUrl: currentSongData || defaultGiftData.songUrl,
+                promises: [
+                    document.getElementById('adm-promise1').value.trim(),
+                    document.getElementById('adm-promise2').value.trim(),
+                    document.getElementById('adm-promise3').value.trim()
+                ],
+                notes: [
+                    document.getElementById('adm-note1').value.trim(),
+                    document.getElementById('adm-note2').value.trim(),
+                    document.getElementById('adm-note3').value.trim()
+                ],
+                photos: photos,
+                page3Btn: document.getElementById('adm-page3Btn').value.trim(),
+                finalTitle: document.getElementById('adm-finalTitle').value.trim(),
+                finalMessage: document.getElementById('adm-finalMessage').value,
+                finalSignature: document.getElementById('adm-finalSignature').value.trim(),
+                updatedAt: Date.now()
+            };
+
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(giftData));
+            } catch (e) {}
+
+            renderGiftUI();
+
+            const saveBtn = document.getElementById('hlSaveBtn');
+            saveBtn.disabled = true;
+            saveBtn.innerText = "جاري الحفظ على قاعدة البيانات... ⏳";
+
+            const savePromises = [];
+            if (firestoreDocRef) {
+                savePromises.push(firestoreDocRef.set(giftData).catch(() => {}));
+            }
+            if (rtdbRef) {
+                savePromises.push(rtdbRef.set(giftData).catch(() => {}));
+            }
+
+            await Promise.all(savePromises);
+
+            saveBtn.innerText = "تم الحفظ وتحديث الهدية بنجاح ✅";
+            setTimeout(() => {
+                saveBtn.disabled = false;
+                saveBtn.innerHTML = '<i class="fa-solid fa-floppy-disk"></i> حفظ التعديلات على السحابة وتحديث الهدية';
+                closeAdminModal();
+            }, 700);
+        }
+
+        /* =====================================================================
+           6. تشغيل الهدية والعداد الفعال الحقيقي مع مرور الوقت
+           ===================================================================== */
+        let counterInterval = null;
+        let heartsStarted = false;
+
+        function goToPage2() {
+            const entered = document.getElementById('passInput').value.trim();
+            if(entered.toLowerCase() === (giftData.giftPassword || "1").toLowerCase()) {
+                document.getElementById('page-1').style.transform = 'translateY(-100%) scale(0.9)';
+                document.getElementById('page-1').style.opacity = '0';
+                setTimeout(() => {
+                    document.getElementById('page-1').style.display = 'none';
+                    document.getElementById('page-2').style.display = 'block';
+                    document.body.style.overflow = 'auto';
+                    setTimeout(() => { 
+                        document.getElementById('page-2').style.opacity = '1'; 
+                        checkScroll(); 
+                    }, 50);
+                    startCounter();
+                    toggleMusic();
+                    createHearts();
+                }, 800);
+            } else { 
+                const btn = document.getElementById('ui-loginBtn');
+                btn.innerHTML = "ركزي يا حبيبتي😂";
+                setTimeout(() => { btn.innerHTML = giftData.loginBtnText || "دوسي هنا😂"; }, 2000);
+            }
+        }
+
+        function goToPage3() {
+            document.getElementById('page-3').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            window.scrollTo(0,0);
+            setTimeout(() => { document.getElementById('page-3').style.opacity = '1'; }, 50);
+        }
+
+        /* دالة العداد الحقيقي والفعال في الواقع */
+        function updateRealTimeCounter() {
+            const start = new Date(giftData.startDate || "2023-01-20T00:00:00");
+            const now = new Date();
+
+            if (isNaN(start.getTime()) || now < start) {
+                ['years', 'months', 'days', 'hours', 'mins', 'secs'].forEach(id => {
+                    document.getElementById(id).innerText = '0';
+                });
+                return;
+            }
+
+            let years = now.getFullYear() - start.getFullYear();
+            let months = now.getMonth() - start.getMonth();
+            let days = now.getDate() - start.getDate();
+            let hours = now.getHours() - start.getHours();
+            let mins = now.getMinutes() - start.getMinutes();
+            let secs = now.getSeconds() - start.getSeconds();
+
+            if (secs < 0) { secs += 60; mins--; }
+            if (mins < 0) { mins += 60; hours--; }
+            if (hours < 0) { hours += 24; days--; }
+            if (days < 0) {
+                const prevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
+                days += prevMonth.getDate();
+                months--;
+            }
+            if (months < 0) { months += 12; years--; }
+
+            document.getElementById('years').innerText = Math.max(0, years);
+            document.getElementById('months').innerText = Math.max(0, months);
+            document.getElementById('days').innerText = Math.max(0, days);
+            document.getElementById('hours').innerText = Math.max(0, hours);
+            document.getElementById('mins').innerText = Math.max(0, mins);
+            document.getElementById('secs').innerText = Math.max(0, secs);
+        }
+
+        function startCounter() {
+            updateRealTimeCounter();
+            if (!counterInterval) {
+                counterInterval = setInterval(updateRealTimeCounter, 1000);
+            }
+        }
+
+        function toggleMusic() {
+            const a = document.getElementById('loveSong');
+            const i = document.getElementById('pIcon');
+            if(a.paused) {
+                const p = a.play();
+                if (p && p.catch) p.catch(() => {});
+                i.className = 'fa-solid fa-pause';
+            } else {
+                a.pause();
+                i.className = 'fa-solid fa-play';
+            }
+        }
+
+        function createHearts() {
+            if (heartsStarted) return;
+            heartsStarted = true;
+            const container = document.getElementById('hearts-container');
+            setInterval(() => {
+                const heart = document.createElement('i');
+                const isStar = Math.random() > 0.8;
+                heart.className = isStar ? 'fa-solid fa-star heart-particle' : 'fa-solid fa-heart heart-particle';
+                heart.style.left = Math.random() * 100 + 'vw';
+                heart.style.animationDuration = (Math.random() * 3 + 4) + 's';
+                heart.style.fontSize = (Math.random() * 10 + 10) + 'px';
+                container.appendChild(heart);
+                setTimeout(() => heart.remove(), 6000);
+            }, 300);
+        }
+
+        function checkScroll() {
+            document.querySelectorAll('.glass-card').forEach(card => {
+                const rect = card.getBoundingClientRect();
+                if(rect.top < window.innerHeight - 50) {
+                    card.classList.add('show');
+                }
+            });
+        }
+
+        document.getElementById('page-2').onscroll = checkScroll;
+        document.addEventListener('DOMContentLoaded', loadSavedGiftData);
+    </script>
+
+    <!-- HeartLink Lock -->
+    <script>
+      window.HEARTLINK_GIFT_ID = "gift-dynamic-custom-template";
+    </script>
+    <script src="https://cdn.jsdelivr.net/gh/HeartLink349/Heart_Link@a665165/heartlink-lock.js"></script>
+</body>
+</html>
